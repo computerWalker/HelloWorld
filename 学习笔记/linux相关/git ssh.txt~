@@ -1,0 +1,19 @@
+$ ssh-keygen -t rsa -C "xxxxxx@yy.com"
+在/home/lingbo/.ssh 中生成密钥文件
+$ ssh-keygen -t rsa -C "邮箱地址" -f ~/.ssh/githug_blog_keys #生成ssh key的名称为githug_blog_keys，慎用容易出现其它异常。
+
+
+在github中设置ssh key
+1) 进入c:/Users/xxxx_000/.ssh/目录下，打开id_rsa.pub文件，全选复制公钥内容。
+
+2) Title自定义，将公钥粘贴到GitHub中Add an SSH key的key输入框，最后“Add Key”。
+
+配置账户
+
+$ git config --global user.name “your_username”  #设置用户名
+
+$ git config --global user.email “your_registered_github_Email”  #设置邮箱地址(建议用注册giuhub的邮箱)
+
+测试ssh keys是否设置成功。
+
+$ ssh -T git@github.com
