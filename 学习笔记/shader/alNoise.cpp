@@ -174,7 +174,7 @@ node_update
 	cpsum += data->chipProb4;
 	data->chipProb5 = params[p_chipProb5].FLT;
 	cpsum += data->chipProb5;
-
+	//计算几种颜色的变化比例   颜色占比/所有颜色占比之和
 	data->chipProb1 /= cpsum;
 	data->chipProb2 /= cpsum;
 	data->chipProb3 /= cpsum;
@@ -183,9 +183,10 @@ node_update
 }
 //shader主体
 shader_evaluate
-{
+{	//get data
 	ShaderData* data = (ShaderData*)AiNodeGetLocalData(node);
-
+	//AiShaderEvalParamRGB(index in the shader's parameter enum list)靠参数列表的编号获取数据
+	//p_color1其实就是一个int值作为编号使用
 	AtRGB color1 = AiShaderEvalParamRGB(p_color1);
 	AtRGB color2 = AiShaderEvalParamRGB(p_color2);
 
@@ -211,14 +212,16 @@ shader_evaluate
 
 	// choose what space we want to calculate in
 	AtPoint P;
+	//判断node节点的P是否被连接
 	if (AiNodeIsLinked(node, "P"))
 	{
 		P = Pin;
 	}
 	else
-	{
+	{	//使用switch循环类型判断，较if更为效率！不是层级式的判断使用switch！！！
 		switch (data->space)
 		{
+		// 等同与  case 0：
 		case NS_OBJECT:
 			P = sg->Po;
 			break;
@@ -244,6 +247,8 @@ shader_evaluate
 	AtVector delta[4];
 	AtUInt32 ID[4];
 	AiCellular(P, 4, data->octaves, lacunarity, randomness, F, delta, ID);
+	//AiCellular（位置，周边的点整数，迭代次数，连续的宽度值，随机之0-1数值。。。）
+	//将算好的值存在F、delta、ID中，名称尽量清晰易于阅读
 
 	if (data->mode == CN_FEATURES)
 	{
