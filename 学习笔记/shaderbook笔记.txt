@@ -1,2 +1,3 @@
 shader of book 笔记
 线性插值（liner interpolation）
+利用函数有限点的取值，估算出其他地方的近似值
