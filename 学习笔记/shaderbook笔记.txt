@@ -1,2 +1,2 @@
 shader of book 笔记
-
+线性插值（liner interpolation）
